@@ -132,7 +132,12 @@ def category(request, category_id):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog.html', context={'category': category, 'posts': posts})
+    recent = Post.objects.all().order_by("-created_on")[:5]
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
+    for tag in tags:
+            tag.count = Post.objects.filter(tags__name__icontains=tag.name).count()
+    return render(request, 'blog.html', context={'category': category, 'posts': posts, 'recent': recent, 'categories': categories, 'tags': tags, })
 
 def tag(request, tag_id):
     try:
