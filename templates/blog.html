@@ -132,11 +132,46 @@
                                     </a>
                                 </li>
                                 {% endif %}
-                            {% for p in posts.paginator %}
+                                {% if posts.paginator.num_pages <= 5 %}
+                                {% for p in posts.paginator %}
                                 <li class="page-item">
                                     <a href="?page={{ p.number }}{% if request.GET.query %}&search={{ request.GET.query }}{% endif %}" class="page-link">{{ p.number}}</a>
                                 </li>
-                            {% endfor %}
+                                {% endfor %}
+                                {% elif posts.next_page_number == 2 %}
+                                <li class="page-item">
+                                    <a href="?page=1{% if request.GET.query %}&search={{ request.GET.query }}{% endif %}" class="page-link">1</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="?page=2{% if request.GET.query %}&search={{ request.GET.query }}{% endif %}" class="page-link">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                                <li class="page-item">
+                                    <a href="?page={{ posts.paginator.num_pages }}{% if request.GET.query %}&search={{ request.GET.query }}{% endif %}" class="page-link">{{ posts.paginator.num_pages }}</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a href="?page=1{% if request.GET.query %}&search={{ request.GET.query }}{% endif %}" class="page-link">1</a>
+                                </li>
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                                <li class="page-item">
+                                    <a href="?page={{ posts.number }}{% if request.GET.query %}&search={{ request.GET.query }}{% endif %}" class="page-link">{{ posts.number }}</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="?page={{ posts.next_page_number }}{% if request.GET.query %}&search={{ request.GET.query }}{% endif %}" class="page-link">{{ posts.next_page_number }}</a>
+                                </li>
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                                <li class="page-item">
+                                    <a href="?page={{ posts.paginator.num_pages }}{% if request.GET.query %}&search={{ request.GET.query }}{% endif %}" class="page-link">{{ posts.paginator.num_pages }}</a>
+                                </li>
+                                {% endif %}
+                            
                             {% if posts.has_next %}
                                 <li class="page-item">
                                     <a href="?page={{ posts.next_page_number }}{% if request.GET.query %}&search={{ request.GET.query }}{% endif %}" class="page-link" aria-label="Next">

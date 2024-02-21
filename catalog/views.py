@@ -79,7 +79,7 @@ def blog(request):
     categories = Category.objects.all()
     tags = Tag.objects.all()
     for tag in tags:
-        tag.count = Post.objects.filter(tags__name__icontains=tag.name).count()
+        tag.count = Post.objects.filter(tags__name__iexact=tag.name).count()
     return render(request, 'blog.html', context={'posts': posts, 'categories': categories, 'recent': recent, 'page': page, 'tags': tags, })
 
 def single_blog(request, blog_id):
@@ -91,7 +91,7 @@ def single_blog(request, blog_id):
     tags = Tag.objects.all()
     recent = Post.objects.all().order_by("-created_on")[:5]
     for tag in tags:
-        tag.count = Post.objects.filter(tags__name__icontains=tag.name).count()
+        tag.count = Post.objects.filter(tags__name__iexact=tag.name).count()
     return render(request, 'single-blog.html', context={'post': post, 'categories': categories, 'recent': recent, 'tags': tags})
 
 def search(request):
@@ -115,7 +115,7 @@ def search(request):
     recent = Post.objects.all().order_by("-created_on")[:5]
 
     for tag in tags:
-        tag.count = Post.objects.filter(tags__name__icontains=tag.name).count()
+        tag.count = Post.objects.filter(tags__name__iexact=tag.name).count()
     return render(request, 'search.html', {'query': query, 'results': results, 'posts': posts, 'page': page, 'categories': categories, 'tags': tags, 'recent': recent})
 
 def category(request, category_id):
@@ -136,7 +136,7 @@ def category(request, category_id):
     categories = Category.objects.all()
     tags = Tag.objects.all()
     for tag in tags:
-            tag.count = Post.objects.filter(tags__name__icontains=tag.name).count()
+            tag.count = Post.objects.filter(tags__name__iexact=tag.name).count()
     return render(request, 'blog.html', context={'category': category, 'posts': posts, 'recent': recent, 'categories': categories, 'tags': tags, })
 
 def tag(request, tag_id):
@@ -144,7 +144,7 @@ def tag(request, tag_id):
         single_tag = Tag.objects.get(pk=tag_id)
     except Post.DoesNotExist:
         raise Http404("Post with this tag does not exist")
-    posts_in = Post.objects.filter(tags__name__icontains=single_tag.name).order_by("-created_on")
+    posts_in = Post.objects.filter(tags__name__iexact=single_tag.name).order_by("-created_on")
     paginator = Paginator(posts_in, 10)
     page = request.GET.get("page")
     try:
@@ -158,7 +158,7 @@ def tag(request, tag_id):
     categories = Category.objects.all()
     tags = Tag.objects.all()
     for tag in tags:
-        tag.count = Post.objects.filter(tags__name__icontains=tag.name).count()
+        tag.count = Post.objects.filter(tags__name__iexact=tag.name).count()
     return render(request, 'blog.html', context={'single_tag': single_tag, 'posts': posts, 'recent': recent, 'categories': categories, 'tags': tags, })
 
 def date(request, year, month, day):
@@ -169,5 +169,5 @@ def date(request, year, month, day):
     tags = Tag.objects.all()
 
     for tag in tags:
-        tag.count = Post.objects.filter(tags__name__icontains=tag.name).count()
+        tag.count = Post.objects.filter(tags__name__iexact=tag.name).count()
     return render(request, 'blog.html', context={'posts': posts, 'recent': recent, 'categories': categories, 'tags': tags})
