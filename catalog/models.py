@@ -46,7 +46,8 @@ class Post(models.Model):
     def get_next_id(self):
         is_next = Post.objects.filter(id=self.id+1).exists()
         while is_next:
-            return self.id + 1
+            self.id + 1
+        return self.id
 
     def get_previous_id(self):
         is_previous = Post.objects.filter(id=self.id-1).exists()
