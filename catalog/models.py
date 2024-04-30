@@ -61,6 +61,9 @@ class Post(models.Model):
         if self.id == Post.objects.last().id:
             return False
 
+        is_next = Post.objects.filter(id=self.id+1).exists()
+        return is_next
+
 
 
 
