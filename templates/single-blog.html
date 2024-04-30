@@ -144,6 +144,13 @@
                                  <h4>Следующая статья</h4>
                               </a>
                            </div>
+                            {% else %}
+                           <div class="detials">
+                              <p>Next Post</p>
+                              <a href="/catalog/blog/{{ post.get_next_id}}">
+                                 <h4>Следующая статья</h4>
+                              </a>
+                           </div>
                             {% endif %}
                         </div>
                      </div>
