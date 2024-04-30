@@ -45,7 +45,7 @@ class Post(models.Model):
 
     def get_next_id(self):
         is_next = Post.objects.filter(id=self.id+1).exists()
-        while is_next:
+        while is_next is False:
             self.id = self.id + 1
         return self.id
 
