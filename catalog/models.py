@@ -59,6 +59,8 @@ class Post(models.Model):
 
     def is_next(self):
         is_next = Post.objects.filter(id=self.id+1).exists()
+        if is_next == False:
+            is_next = Post.objects.filter(id=self.id+2).exists()
         return is_next
 
 
