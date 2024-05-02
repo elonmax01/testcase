@@ -162,8 +162,16 @@ def tag(request, tag_id):
     return render(request, 'blog.html', context={'single_tag': single_tag, 'posts': posts, 'recent': recent, 'categories': categories, 'tags': tags, })
 
 def date(request, year, month, day):
-    posts = Post.objects.filter(Q(created_on__year=year) & Q(created_on__month=month) & Q(created_on__day=day)).order_by("-created_on")
+    posts_in = Post.objects.filter(Q(created_on__year=year) & Q(created_on__month=month) & Q(created_on__day=day)).order_by("-created_on")
 
+    paginator = Paginator(posts_in, 10)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
     recent = Post.objects.all().order_by("-created_on")[:5]
     categories = Category.objects.all()
     tags = Tag.objects.all()
