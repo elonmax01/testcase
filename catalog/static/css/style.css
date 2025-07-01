@@ -103,10 +103,10 @@ h6 a {
 }
 
 /* line 51, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_reset.scss */
-ul {
-  margin: 0px;
-  padding: 0px;
-
+ul, ol {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding: 0;
 }
 
 /* line 55, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_reset.scss */
