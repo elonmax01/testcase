@@ -1,9 +1,10 @@
 import datetime
 
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from catalog.models import Author, Card, Review, Post, Category, Tag
+from catalog.models import Author, Card, Review, Post, Category, Tag, Comment
+from catalog.forms import CommentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
@@ -179,3 +180,20 @@ def date(request, year, month, day):
     for tag in tags:
         tag.count = Post.objects.filter(tags__name__iexact=tag.name).count()
     return render(request, 'blog.html', context={'posts': posts, 'recent': recent, 'categories': categories, 'tags': tags})
+
+
+def add_comment(request, comment_id):
+    form = CommentForm()
+    posts = get_object_or_404(Post, pk=comment_id)
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = posts
+            comment.save()
+            return redirect('post', posts.id)
+        
+    context = {'form': form}
+
+    return render(request, 'comment_form.html', context)

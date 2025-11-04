@@ -15,5 +15,6 @@ urlpatterns = [
     path('blog/date/<int:year>/<int:month>/<int:day>', views.date, name='date'),
     path('courses/', views.courses, name='courses'),
     path('courses/<int:card_id>', views.detail, name='details'),
-    path('blog/tag/<int:tag_id>', views.tag, name='tags')
+    path('blog/tag/<int:tag_id>', views.tag, name='tags'),
+    path('blog/<int:comment_id>/comment/', views.add_comment, name='add_comment'),
 ]
