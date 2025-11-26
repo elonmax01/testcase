@@ -63,8 +63,10 @@ def detail(request, card_id):
         card = Card.objects.get(pk=card_id)
     except Card.DoesNotExist:
         raise Http404("Card does not exist")
+    post = Post.objects.all().order_by("-created_on")
+    recent = Post.objects.all().order_by("-created_on")[:5]
     reviews = Review.objects.all()
-    return render(request, 'course_details.html', context={'reviews': reviews, "card": card})
+    return render(request, 'course_details.html', context={'reviews': reviews, 'card': card, 'post': post, 'recent': recent})
 
 def blog(request):
     post = Post.objects.all().order_by("-created_on")
