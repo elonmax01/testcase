@@ -162,7 +162,9 @@
                     <br/>
                     {% for comment in post.comments.all %}
                     <b>{{ comment.name }}</b> - <span class="text-muted" style="font-size: 13px;">{{ comment.created }}</span>
+                    {% autoescape off %}
                     <p>{{ comment.body }}</p>
+                    {% endautoescape %}
                     {% endfor %}
                     {% endif %}
                 </div>
